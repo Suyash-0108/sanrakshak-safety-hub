@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Shield, MapPin, Phone, Mic, CheckCircle, AlertTriangle, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Shield, MapPin, Phone, Mic, CheckCircle, AlertTriangle, LogOut, Lock, Siren } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const quickActions = [
   { icon: MapPin, label: "Share Live Location", color: "bg-blue-500/10 text-blue-400", toast: "Location shared with contacts" },
@@ -12,6 +12,7 @@ const quickActions = [
 const Dashboard = () => {
   const [status, setStatus] = useState<"safe" | "alert">("safe");
   const [toast, setToast] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -110,6 +111,37 @@ const Dashboard = () => {
               <span className="text-xs text-muted-foreground font-medium text-center leading-tight">{action.label}</span>
             </motion.button>
           ))}
+        </motion.div>
+
+        {/* Navigation buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-2 gap-3 w-full mb-4"
+        >
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => navigate("/evidence")}
+            className="glass-card p-4 flex items-center gap-3 hover:border-primary/20 transition-colors"
+          >
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/10 text-primary">
+              <Lock className="h-5 w-5" />
+            </div>
+            <span className="text-sm text-foreground font-medium">Evidence Vault</span>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => navigate("/emergency")}
+            className="glass-card p-4 flex items-center gap-3 hover:border-primary/20 transition-colors"
+          >
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-warning/10 text-warning">
+              <Siren className="h-5 w-5" />
+            </div>
+            <span className="text-sm text-foreground font-medium">Emergency</span>
+          </motion.button>
         </motion.div>
 
         {/* Recent activity */}
