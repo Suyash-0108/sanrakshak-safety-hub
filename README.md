@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+🛡️ Sanrakshak
+Your Personal Safety Companion
 
-## Project info
+Sanrakshak is a smart personal safety application designed to provide instant emergency assistance, real-time location tracking, and secure evidence storage.
+The platform ensures that users feel protected and connected during unsafe situations.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🚀 Features
+🔴 1. One-Tap SOS Alert
 
-## How can I edit this code?
+Instantly sends emergency alerts to saved contacts
 
-There are several ways of editing your application.
+Shares live location in real time
 
-**Use Lovable**
+Can trigger phone calls automatically (mobile version)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+📍 2. Live Location Tracking
 
-Changes made via Lovable will be committed automatically to this repo.
+Continuous GPS tracking
 
-**Use your preferred IDE**
+Real-time map updates
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Emergency contacts can monitor user movement
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+📁 3. Secure Evidence Folder
 
-Follow these steps:
+Upload photos, videos, and audio recordings
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Encrypted and securely stored
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Accessible only to the user
 
-# Step 3: Install the necessary dependencies.
-npm i
+👤 4. Smart User Authentication
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+First-time login requires user details
 
-**Edit a file directly in GitHub**
+Information securely stored (Supabase backend)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+No need to re-enter details after first sign-in
 
-**Use GitHub Codespaces**
+📞 5. Emergency Contacts Management
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Add / Edit / Delete trusted contacts
 
-## What technologies are used for this project?
+Priority calling feature
 
-This project is built with:
+Automatic alert system integration
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+🔐 6. Secure Backend
 
-## How can I deploy this project?
+Built using Supabase
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Authentication & Database integration
 
-## Can I connect a custom domain to my Lovable project?
+Secure cloud storage
 
-Yes, you can!
+🛠️ Tech Stack
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Frontend
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+React / Next.js
+
+Tailwind CSS
+
+Framer Motion (animations)
+
+Backend
+
+Supabase (Authentication + Database + Storage)
+
+Mobile Deployment
+
+Capacitor / Android Studio
+
+USB Debugging enabled for testing
