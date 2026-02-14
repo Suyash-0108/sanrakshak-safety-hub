@@ -5,6 +5,7 @@ Sanrakshak is a smart personal safety application designed to provide instant em
 The platform ensures that users feel protected and connected during unsafe situations.
 
 🚀 Features
+
 🔴 1. One-Tap SOS Alert
 
 Instantly sends emergency alerts to saved contacts
