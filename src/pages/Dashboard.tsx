@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, MapPin, Phone, Mic, CheckCircle, AlertTriangle, LogOut, Lock, Siren } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { getAlerts } from "../services/sosService";
 
 const quickActions = [
   { icon: MapPin, label: "Share Live Location", color: "bg-blue-500/10 text-blue-400", toast: "Location shared with contacts" },
