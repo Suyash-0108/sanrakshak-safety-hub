@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Shield, MapPin, Phone, Mic, CheckCircle, AlertTriangle, LogOut, Lock, Siren } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAlerts } from "../services/sosService";
+import { supabase } from "../lib/supabaseClient";
 
 const quickActions = [
   { icon: MapPin, label: "Share Live Location", color: "bg-blue-500/10 text-blue-400", toast: "Location shared with contacts" },
@@ -22,6 +23,30 @@ useEffect(() => {
   }
 
   fetchAlerts()
+
+  // 🔥 REALTIME LISTENER
+  const channel = supabase
+    .channel("alerts-channel")
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "alerts",
+      },
+      (payload) => {
+        console.log("New Alert:", payload)
+
+        // Add new alert at top
+        setAlerts((prev) => [payload.new, ...prev])
+      }
+    )
+    .subscribe()
+
+  // cleanup
+  return () => {
+    supabase.removeChannel(channel)
+  }
 }, []);
   const navigate = useNavigate();
 
