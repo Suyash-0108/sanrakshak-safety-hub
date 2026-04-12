@@ -10,7 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import EvidenceVault from "./pages/EvidenceVault";
 import EmergencyServices from "./pages/EmergencyServices";
 import NotFound from "./pages/NotFound";
+import MapView from "./pages/MapView";
 
+<Route path="/map" element={<MapView />} />
 const queryClient = new QueryClient();
 
 const App = () => (
