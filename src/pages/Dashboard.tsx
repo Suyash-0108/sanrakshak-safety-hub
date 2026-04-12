@@ -111,11 +111,10 @@ const Dashboard = () => {
 });
 
           if (error) {
-            console.error(error);
-            showToast("❌ Failed to send SOS");
-          } else {
-            setStatus("alert");
-            showToast("🚨 SOS sent successfully!");
+  console.error("SOS Error:", JSON.stringify(error, null, 2));
+  showToast("❌ Failed to send SOS");
+} else {
+  showToast("🚨 SOS sent successfully!");
           }
         } catch (err) {
           console.error("Unexpected Error:", err);
