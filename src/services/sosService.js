@@ -1,34 +1,11 @@
-import { supabase } from "../lib/supabaseClient"
+import { supabase } from "../lib/supabaseClient";
 
-export const sendSOS = async (lat, lng, userId) => {
+export const sendSOS = async (payload) => {
   const { data, error } = await supabase
     .from("alerts")
-    .insert([
-      {
-        user_id: userId,
-        latitude: lat,
-        longitude: lng,
-        status: "active"
-      }
-    ])
+    .insert([payload]);
 
-  if (error) {
-    console.error("SOS Error:", error)
-  } else {
-    console.log("SOS Sent:", data)
-  }
-}
+  console.log("SUPABASE RESPONSE:", data, error);
 
-export const getAlerts = async () => {
-  const { data, error } = await supabase
-    .from("alerts")
-    .select("*")
-    .order("created_at", { ascending: false })
-
-  if (error) {
-    console.error("Fetch Error:", error)
-    return []
-  }
-
-  return data
-}
+  return { data, error }; // 🔥 VERY IMPORTANT
+};
