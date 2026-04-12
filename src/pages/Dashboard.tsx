@@ -38,17 +38,18 @@ const quickActions = [
 ];
 
 const Dashboard = () => {
-  const [status, setStatus] = useState<"safe" | "alert">("safe");
-  const [toast, setToast] = useState<string | null>(null);
-  const [alerts, setAlerts] = useState<any[]>([]);
+  const [status, setStatus] = useState("safe");
+  const [toast, setToast] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  // 🔥 FETCH + REALTIME
+  // 🔥 FETCH + REALTIME ALERTS
   useEffect(() => {
     const fetchAlerts = async () => {
       const data = await getAlerts();
-      setAlerts(data);
+      setAlerts(data || []);
     };
 
     fetchAlerts();
@@ -74,36 +75,60 @@ const Dashboard = () => {
     };
   }, []);
 
-  // 🔔 TOAST
-  const showToast = (msg: string) => {
+  // 🔔 Toast helper
+  const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 2500);
   };
 
-  // 🚨 SOS FUNCTION (FIXED)
+  // 🚨 FINAL SOS FUNCTION
   const handleSOS = () => {
     console.log("SOS CLICKED");
 
+    if (!navigator.geolocation) {
+      showToast("❌ Geolocation not supported");
+      return;
+    }
+
+    setLoading(true);
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+        try {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
 
-        console.log("LOCATION:", lat, lng);
+          console.log("LOCATION:", lat, lng);
 
-        const userId = "demo-user-id";
+          const userId = "demo-user-id"; // later replace with auth user
 
-        // ✅ SEND TO SUPABASE
-        await sendSOS(lat, lng, userId);
+          // ✅ CORRECT PAYLOAD
+          const { error } = await sendSOS({
+            user_id: userId,
+            latitude: lat,
+            longitude: lng,
+            status: "active",
+          });
 
-        setStatus("alert");
-        showToast("🚨 SOS sent successfully!");
-
-        setTimeout(() => setStatus("safe"), 4000);
+          if (error) {
+            console.error(error);
+            showToast("❌ Failed to send SOS");
+          } else {
+            setStatus("alert");
+            showToast("🚨 SOS sent successfully!");
+          }
+        } catch (err) {
+          console.error("Unexpected Error:", err);
+          showToast("❌ Something went wrong");
+        } finally {
+          setLoading(false);
+          setTimeout(() => setStatus("safe"), 4000);
+        }
       },
       (error) => {
-        console.log("LOCATION ERROR:", error);
+        console.error("LOCATION ERROR:", error);
         showToast("❌ Location permission denied");
+        setLoading(false);
       }
     );
   };
@@ -133,11 +158,7 @@ const Dashboard = () => {
       </div>
 
       {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between max-w-lg mx-auto w-full mb-8"
-      >
+      <motion.header className="flex items-center justify-between max-w-lg mx-auto w-full mb-8">
         <div className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
           <span className="font-bold text-foreground">Sanrakshak</span>
@@ -149,9 +170,7 @@ const Dashboard = () => {
 
       <div className="max-w-lg mx-auto w-full flex flex-col items-center flex-1">
         {/* Status */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <div
           className={`flex items-center gap-2 px-4 py-2 rounded-full mb-10 ${
             status === "safe"
               ? "bg-safe/10 border border-safe/20 text-safe"
@@ -166,18 +185,24 @@ const Dashboard = () => {
           <span className="text-sm font-medium">
             {status === "safe" ? "You are Safe" : "Alert Active"}
           </span>
-        </motion.div>
+        </div>
 
         {/* 🚨 SOS BUTTON */}
         <motion.button
-          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleSOS}
-          className="w-36 h-36 rounded-full flex flex-col items-center justify-center text-white font-bold text-lg mb-12"
+          disabled={loading}
+          className={`w-36 h-36 rounded-full flex flex-col items-center justify-center text-white font-bold text-lg mb-12 ${
+            loading ? "opacity-60" : ""
+          }`}
           style={{ background: "red" }}
         >
-          <span className="text-3xl">SOS</span>
-          <span className="text-xs mt-1">Tap for help</span>
+          <span className="text-3xl">
+            {loading ? "..." : "SOS"}
+          </span>
+          <span className="text-xs mt-1">
+            {loading ? "Sending..." : "Tap for help"}
+          </span>
         </motion.button>
 
         {/* Quick Actions */}
@@ -219,23 +244,16 @@ const Dashboard = () => {
       </div>
 
       {/* Toast */}
-      <AnimatedToast message={toast} />
+      {toast && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-3 rounded"
+        >
+          {toast}
+        </motion.div>
+      )}
     </div>
-  );
-};
-
-// 🔔 TOAST COMPONENT
-const AnimatedToast = ({ message }: { message: string | null }) => {
-  if (!message) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-3 rounded"
-    >
-      {message}
-    </motion.div>
   );
 };
 
