@@ -104,11 +104,11 @@ const Dashboard = () => {
 
           // ✅ CORRECT PAYLOAD
           const { error } = await sendSOS({
-            user_id: userId,
-            latitude: lat,
-            longitude: lng,
-            status: "active",
-          });
+  user_id: userId,
+  latitude: lat,
+  longitude: lng,
+  status: "active",
+});
 
           if (error) {
             console.error(error);
