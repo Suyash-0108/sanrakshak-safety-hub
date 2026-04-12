@@ -12,7 +12,7 @@ import EmergencyServices from "./pages/EmergencyServices";
 import NotFound from "./pages/NotFound";
 import MapView from "./pages/MapView";
 
-<Route path="/map" element={<MapView />} />
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -22,6 +22,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/map" element={<MapView />} />
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<ProfileSetup />} />
