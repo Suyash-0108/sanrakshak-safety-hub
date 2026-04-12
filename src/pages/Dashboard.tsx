@@ -186,7 +186,7 @@ useEffect(() => {
     <AnimatedToast message={toast} />
   </div>
 );
-
+};
 const AnimatedToast = ({ message }: { message: string | null }) => {
   if (!message) return null;
   return (
