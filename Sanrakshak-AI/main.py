@@ -1,21 +1,44 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from ai_engine import analyze_distress
+import requests
 
 app = FastAPI()
 
-class DistressRequest(BaseModel):
-    message: str
-
-@app.get("/")
-def home():
-    return {
-        "message": "Sanrakshak AI Running"
-    }
+class Incident(BaseModel):
+    report: str
 
 @app.post("/analyze")
-def analyze(request: DistressRequest):
+def analyze(data: Incident):
+    response = requests.post(
+    "http://localhost:11434/api/generate",
+    json={
+        "model": "qwen3:4b",
+        "prompt": f"""
+You are Sanrakshak AI.
 
-    result = analyze_distress(request.message)
+Analyze the following incident and respond ONLY in valid JSON.
 
-    return result
+Incident:
+{data.report}
+
+Output format:
+{{
+  "category": "",
+  "severity": "",
+  "summary": "",
+  "actions": ["", "", ""]
+}}
+
+Rules:
+- Summary must be under 20 words.
+- Maximum 3 actions.
+- No explanations.
+- No markdown.
+- No extra text.
+""",
+        "stream": False,
+        "options": {
+            "num_predict": 100
+        }
+    }
+)
