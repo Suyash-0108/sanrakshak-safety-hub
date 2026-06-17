@@ -11,7 +11,11 @@ import EvidenceVault from "./pages/EvidenceVault";
 import EmergencyServices from "./pages/EmergencyServices";
 import NotFound from "./pages/NotFound";
 import MapView from "./pages/MapView";
-
+import AIAssistant from "./pages/AIAssistant";
+<Route
+  path="/ai"
+  element={<AIAssistant />}
+/>
 
 const queryClient = new QueryClient();
 
