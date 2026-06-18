@@ -12,10 +12,6 @@ import EmergencyServices from "./pages/EmergencyServices";
 import NotFound from "./pages/NotFound";
 import MapView from "./pages/MapView";
 import AIAssistant from "./pages/AIAssistant";
-<Route
-  path="/ai"
-  element={<AIAssistant />}
-/>
 
 const queryClient = new QueryClient();
 
@@ -34,6 +30,7 @@ const App = () => (
           <Route path="/evidence" element={<EvidenceVault />} />
           <Route path="/emergency" element={<EmergencyServices />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/ai" element={<AIAssistant />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

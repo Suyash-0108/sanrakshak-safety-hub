@@ -9,6 +9,5 @@ def analyze_message(text):
 
     return {
         "message": ai_response,
-        "risk_level": classification["risk_level"],
-        "category": classification["category"]
+        **classification
     }
