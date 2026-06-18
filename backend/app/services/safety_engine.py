@@ -1,11 +1,14 @@
 from app.services.classifier import classify_risk
 from app.services.ai_service import get_ai_response
 
-def analyze_message(text):
+def analyze_message(text, history):
 
     classification = classify_risk(text)
 
-    ai_response = get_ai_response(text)
+    ai_response = get_ai_response(
+        text,
+        history
+    )
 
     return {
         "message": ai_response,

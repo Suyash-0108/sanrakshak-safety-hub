@@ -22,7 +22,11 @@ export default function AIAssistant() {
     setLoading(true);
 
     try {
-      const result = await analyzeMessage(text);
+      const result =
+  await analyzeMessage(
+    text,
+    messages
+  );
 
       setMessages((prev) => [
         ...prev,
@@ -206,4 +210,4 @@ export default function AIAssistant() {
     </div>
   );
 }
-```
+
