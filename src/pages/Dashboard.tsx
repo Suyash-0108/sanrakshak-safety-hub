@@ -10,6 +10,7 @@ import {
   LogOut,
   Lock,
   Siren,
+  Bot,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -66,7 +67,7 @@ const Dashboard = () => {
         (payload) => {
           console.log("New Alert:", payload);
           setAlerts((prev) => [payload.new, ...prev]);
-        }
+        },
       )
       .subscribe();
 
@@ -104,17 +105,17 @@ const Dashboard = () => {
 
           // ✅ CORRECT PAYLOAD
           const { error } = await sendSOS({
-  user_id: userId,
-  latitude: lat,
-  longitude: lng,
-  status: "active",
-});
+            user_id: userId,
+            latitude: lat,
+            longitude: lng,
+            status: "active",
+          });
 
           if (error) {
-  console.error("SOS Error:", JSON.stringify(error, null, 2));
-  showToast("❌ Failed to send SOS");
-} else {
-  showToast("🚨 SOS sent successfully!");
+            console.error("SOS Error:", JSON.stringify(error, null, 2));
+            showToast("❌ Failed to send SOS");
+          } else {
+            showToast("🚨 SOS sent successfully!");
           }
         } catch (err) {
           console.error("Unexpected Error:", err);
@@ -128,7 +129,7 @@ const Dashboard = () => {
         console.error("LOCATION ERROR:", error);
         showToast("❌ Location permission denied");
         setLoading(false);
-      }
+      },
     );
   };
 
@@ -196,9 +197,7 @@ const Dashboard = () => {
           }`}
           style={{ background: "red" }}
         >
-          <span className="text-3xl">
-            {loading ? "..." : "SOS"}
-          </span>
+          <span className="text-3xl">{loading ? "..." : "SOS"}</span>
           <span className="text-xs mt-1">
             {loading ? "Sending..." : "Tap for help"}
           </span>
@@ -221,6 +220,16 @@ const Dashboard = () => {
             </button>
           ))}
         </div>
+
+        {/* Navigation */}
+        {/* AI Commander */}
+        <button
+          onClick={() => navigate("/ai")}
+          className="glass-card p-4 flex items-center gap-3 w-full mb-3 border border-blue-500/30 hover:border-blue-500"
+        >
+          <Bot className="h-5 w-5 text-blue-400" />
+          AI Commander
+        </button>
 
         {/* Navigation */}
         <div className="grid grid-cols-2 gap-3 w-full mb-4">
